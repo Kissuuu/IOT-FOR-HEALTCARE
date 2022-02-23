@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Responsive Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css"  href="cardStyledDetail.css">
+    <link rel="stylesheet" type="text/css" href="submitbutton.css">
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="#"> 
+                    <span class="title"></span> 
+                </a>
+            </li>
+            <li>
+                <a href = "#" onclick="changeVisibilityFor('home')">
+                    <span class="title">Home</span>
+                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                </a>
+            </li>
+            <li>
+                <a href = "#" onclick="changeVisibilityFor('medicineAlert')">
+                    <span class="title">Medicine Alert</span>
+                    <span class="icon"><ion-icon name="diamond-outline"></ion-icon></span>
+                </a>
+            </li>
+            <li>
+                <a href = "#" onclick="changeVisibilityFor('reminder')">
+                    <span class="title">Reminder</span>
+                    <span class="icon"><ion-icon name="star-outline"></ion-icon></span>
+                </a>
+            </li>
+            <li>
+                <a href = "#" onclick="changeVisibilityFor('contact')">
+                    <span class="title">Contact</span>
+                    <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="logout()">
+                    <span class="title">Sign-Out</span>
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>  
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <icon class="icon"><ion-icon name="menu-outline"></ion-icon></icon>
+            </div>
+        </div>
+
+        <!--HOME-->
+        <div id="home">
+            <div class="pat1"> 
+                <div style="padding:20px" class="details">
+                    <h2 id = "name1"> Name : </h2>
+                    <h2 id = "age1"> Age : </h2>
+                    <h2 id = "medRep1"> Medical Reports : </h2>
+                </div>
+                <div class="HealthData1">
+                    <h1 style = "padding:20px"> Health Related Data </h1>
+                    <h2 id = "BPM1" style="padding:10px"> Heart Beat Per Minutes(BPM):</h2>
+                    <canvas id = "pat1BPMchart"> </canvas>
+                    <h2 id = "BPM1" style="padding:10px"> Body Temperature (°F):</h2>
+                    <canvas id = "pat1TEMPchart"> </canvas>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--MEDICINE ALERT-->
+        <div id="medicineAlert" style="display: none;"> 
+            <div class="detailsForCategories">
+                <div id="patient1_MedicineAlert" class="card">
+                    <h3>Name: patient1</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                    <h3>Message to display: </h3>
+                    <input type="text" id="messagetodisplay" name="messagetodisplay" placeholder="Message..." required/>
+                    <br>
+                    <input type="button" value="Send data" class="form-submit-button" onclick="sendAlertToTheDevice()">
+                    <h3 id="messageStatus"></h3>
+                </div>
+
+                <div id="patient2_MedicineAlert" class="card">
+                    <h3>Name: patient2</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                    <h3>Message to display: </h3>
+                    <input type="text" id="messagetodisplay2" name="messagetodisplay1" placeholder="Message..." required/>
+                    <br>
+                    <input type="button" value="Send data" class="form-submit-button">
+                    <h3 id="messageStatus2"></h3>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--REMINDER-->
+        <div id="reminder" style="display: none;">
+            <div class="detailsForCategories">
+                <div id="patient1_reminder" class="card">
+                    <h3>Name: patient1</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                </div>
+
+                <div id="patient2_reminder" class="card">
+                    <h3>Name: patient2</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                </div>
+            </div>
+        </div>
+
+        <!--CONTACT-->
+        <div id="contact" style="display: none;">
+            <div class="detailsForCategories">
+                <div id="patient1_contact" class="card">
+                    <h3>Name: patient1</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                </div>
+
+                <div id="patient2_contact" class="card">
+                    <h3>Name: patient2</h3>
+                    <h3>Health Status: <div>Normal</div></h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-storage.js"></script>
+<script src="script.js"> </script>
+<script src="messagealert.js"></script>
+<script src="changeVisibility.js"></script>
+<script>
+    firebase.auth().onAuthStateChanged(function(user){
+        if(!user)
+        {
+            window.location.href = "index.html";
+        }
+    });
+</script>
+
+</body>
+</html>
